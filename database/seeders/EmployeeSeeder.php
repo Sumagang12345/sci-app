@@ -23,6 +23,7 @@ class EmployeeSeeder extends Seeder
                 'Firstname' => $b[$i],
                 'Lastname' => $c[$i],
                 'Middlename' => $d[$i],
+                'amount' => 0,
             ]);
         }
     }

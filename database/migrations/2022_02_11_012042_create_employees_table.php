@@ -19,6 +19,7 @@ class CreateEmployeesTable extends Migration
             $table->string('Firstname');
             $table->string('Lastname');
             $table->string('Middlename');
+            $table->decimal('amount', 11,2)->nullable();
             $table->timestamps();
         });
     }
