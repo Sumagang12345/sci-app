@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -37,7 +37,7 @@
              <span class="brand-name text-truncate">{{ config('app.name') }}</span>
            </a>
          </div>
-         
+
          <!-- begin sidebar scrollbar -->
          <div class="sidebar-scrollbar">
            <!-- sidebar menu -->
@@ -48,7 +48,7 @@
                     Dashboard
                 </a>
             </li>
-             
+
                <li class="has-sub">
                  <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#app" aria-expanded="false" aria-controls="app">
                    <i class="mdi mdi-pencil-box-multiple"></i>
@@ -58,7 +58,7 @@
                  <ul class="collapse" id="app" data-parent="#sidebar-menu">
                    <div class="sub-menu">
                      <li>
-                       <a class="sidenav-item-link" href="{{ url('import'); }}"><span class="nav-text">Import Data</span></a>
+                       <a class="sidenav-item-link" href="{{ url('import'); }}"><span class="nav-text">Import / Export Data</span></a>
                      </li>
 
                      <li>
@@ -73,24 +73,24 @@
                    <i class="mdi mdi-table"></i>
                    <span class="nav-text">Nav 3</span> <b class="caret"></b>
                  </a>
-                    
+
                  <ul class="collapse" id="tables" data-parent="#sidebar-menu">
                    <div class="sub-menu">
                      <li>
                        <a class="sidenav-item-link" href="javascript:void(0)"><span class="nav-text">Sub nav 1</span></a>
                      </li>
- 
+
                      <li class="has-sub">
                        <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#data-tables" aria-expanded="false" aria-controls="data-tables">
                          <span class="nav-text">Sub nav 2</span> <b class="caret"></b>
                        </a>
-                          
+
                        <ul class="collapse" id="data-tables">
                          <div class="sub-menu">
                            <li>
                              <a href="javascript:void(0)">Child Sub nav 1</a>
                            </li>
-                              
+
                            <li>
                              <a href="javascript:void(0)">Child Sub nav 2</a>
                            </li>
@@ -116,8 +116,8 @@
               <!-- search form -->
               <div class="search-form d-none d-lg-inline-block">
                 <div class="input-group">
-                  
-                  
+
+
                  </div>
                 </div>
 
@@ -128,7 +128,7 @@
                     <button href="#" class="dropdown-toggle nav-link" id="dropdownMenuLink" data-toggle="dropdown">
                       {{-- <img src="https://sleek.tafcoder.com/assets/img/user/user.png" class="user-image" alt="User Image" /> --}}
                       <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
-                       
+
                     </button>
                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="#">Account Setting</a>
