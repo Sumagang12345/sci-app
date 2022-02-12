@@ -28,7 +28,7 @@ class PostController extends Controller
 
     public function listOfEmployee()
     {
-        $employee = employee::select('EmployeeID', 'Firstname', 'Lastname', 'Middlename' , 'amount');
+        $employee = employee::select('EmployeeID', 'FullName' , 'Amount');
         return Datatables::of($employee)
         ->make(true);
     }

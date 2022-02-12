@@ -11,9 +11,7 @@
                             <thead>
                                 <tr>
                                 <th>Employee ID</th>
-                                <th>Firstname</th>
-                                <th>Middlename</th>
-                                <th>Lastname</th>
+                                <th>Fullname</th>
                                 <th>Amount</th>
                                 <th>Option</th>
                                 </tr>
@@ -46,23 +44,13 @@ $(document).ready(function() {
         },
         {
             class : 'align-middle text-center',
-            data: "Firstname",
-            name: "Firstname",
+            data: "FullName",
+            name: "FullName",
         },
         {
             class : 'align-middle text-center',
-            data: "Middlename",
-            name: "Middlename",
-        },
-        {
-            class : 'align-middle text-center',
-            data: "Lastname",
-            name: "Lastname",
-        },
-        {
-            class : 'align-middle text-center',
-            data: "amount",
-            name: "amount",
+            data: "Amount",
+            name: "Amount",
         },
         {
                 class : 'align-middle text-center',
