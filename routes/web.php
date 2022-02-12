@@ -9,7 +9,7 @@ use App\Http\Controllers\PostController;
 Auth::routes(['register' => false, 'verify' => false]);
 Route::redirect('/', 'login');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/logout', [HomeController::class, 'logout']);
 
 
 Route::get('/import_export', [ImportController::class, 'index'])->name('import_export');
@@ -21,5 +21,7 @@ Route::get('export', [ImportController::class, 'create'])->name('export');
 
 Route::get('/post', [PostController::class, 'index'])->name('post');
 Route::get('/listOfEmployee', [PostController::class, 'listOfEmployee']);
+
+
 
 
