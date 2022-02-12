@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\employee;
 use Illuminate\Http\Request;
-
+use Yajra\Datatables\Datatables;
 class PostController extends Controller
 {
     /**
@@ -13,6 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         return view('employee.employee', [
             'title' => 'Employee'
         ]);
@@ -23,6 +25,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function listOfEmployee()
+    {
+        $employee = employee::select('EmployeeID', 'Firstname', 'Lastname', 'Middlename' , 'amount');
+        return Datatables::of($employee)
+        ->make(true);
+    }
+
+
     public function create()
     {
         //

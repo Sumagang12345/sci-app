@@ -17,5 +17,6 @@ Route::get('/import', [ImportController::class, 'index'])->name('import');
 
 
 Route::get('/post', [PostController::class, 'index'])->name('post');
+Route::get('/listOfEmployee', [PostController::class, 'listOfEmployee']);
 
 

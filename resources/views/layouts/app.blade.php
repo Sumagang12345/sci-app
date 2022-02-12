@@ -16,6 +16,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <style>
         * {
@@ -62,7 +65,7 @@
                      </li>
 
                      <li>
-                       <a class="sidenav-item-link" href="{{ url('import'); }}"><span class="nav-text">Post Data</span></a>
+                       <a class="sidenav-item-link" href="{{ url('post'); }}"><span class="nav-text">Post Data</span></a>
                      </li>
                    </div>
                  </ul>
@@ -148,5 +151,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/sleek-dashboard/dist/assets/js/sleek.bundle.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    @stack('page-scripts')
 </body>
 </html>
