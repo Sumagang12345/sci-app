@@ -15,11 +15,9 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->Integer('EmployeeID');
-            $table->string('Firstname');
-            $table->string('Lastname');
-            $table->string('Middlename');
-            $table->decimal('amount', 11,2)->nullable();
+            $table->string('EmployeeID')->nullable();
+            $table->string('FullName')->nullable();
+            $table->decimal('Amount', 11,2)->nullable();
             $table->timestamps();
         });
     }
