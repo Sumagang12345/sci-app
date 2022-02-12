@@ -28,7 +28,7 @@ class PostController extends Controller
 
     public function listOfEmployee()
     {
-        $employee = employee::select('EmployeeID', 'FullName' , 'Amount');
+        $employee = employee::select('id','EmployeeID', 'FullName' , 'Amount');
         return Datatables::of($employee)
         ->make(true);
     }
@@ -81,7 +81,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee = employee::find($id);
+        $employee->amount = str_replace(',', '', $request->amount);
+        $employee->save();
     }
 
     /**

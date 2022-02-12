@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('page-title', $title)
 @section('content')
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -25,6 +27,11 @@
 </div>
 @push('page-scripts')
 <script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 $(document).ready(function() {
     $("#list-of-employee").DataTable({
     responsive: true,
@@ -51,6 +58,11 @@ $(document).ready(function() {
             class : 'align-middle text-center',
             data: "Amount",
             name: "Amount",
+            render : function (_, _, data, row) {
+                    return `
+                        <b><span contenteditable="true" id="amount${data['id']}">${data['Amount']}</span></b>
+                    `;
+            },
         },
         {
                 class : 'align-middle text-center',
@@ -60,7 +72,7 @@ $(document).ready(function() {
                 orderable: false,
                 render : function (_, _, data, row) {
                         return `
-                            <button data-row="" class="show-details btn btn-success rounded-pill">
+                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) {}, }); });">
                                 <i class="fas fa-check"></i>
                             </button>
                         `;
