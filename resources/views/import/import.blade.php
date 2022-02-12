@@ -18,7 +18,7 @@
                                         </div>
                                         </div>
                                         <br><br>
-                                        <input type="submit" class="btn btn-primary" name="import" value="Import Data">
+                                        <button type="{{ $disabled1 }}" class="btn btn-primary {{ $disabled2 }}" {{ $disabled3 }} name="import">Import Data</button>
                                         <br><br>
                                     </form>
                             </div>

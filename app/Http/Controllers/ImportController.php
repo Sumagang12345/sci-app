@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Employee;
 use App\Imports\ExcelImport;
 use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,9 +16,19 @@ class ImportController extends Controller
      */
     public function index()
     {
+        $employee = Employee::get();
+        if(count($employee) == 0){
+            $disabled1 = 'submit';
+            $disabled2 = '';
+            $disabled3 = '';
+        }else{
+            $disabled1 = 'button';
+            $disabled2 = 'disabled';
+            $disabled3 = 'style=cursor:not-allowed;';
+        }
         return view('import.import', [
             'title' => 'Import / Export Data'
-        ]);
+        ],compact('disabled1','disabled2','disabled3'));
     }
 
     /**
@@ -38,8 +49,11 @@ class ImportController extends Controller
      */
     public function store(Request $request)
     {
-        Excel::import(new ExcelImport,$request->file('file'));
+        $employee = Employee::get();
+        if(count($employee) == 0){
+            Excel::import(new ExcelImport,$request->file('file'));
         return back();
+        }
     }
 
     /**
