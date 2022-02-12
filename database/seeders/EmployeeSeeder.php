@@ -14,16 +14,12 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
         $a = ['1001','1002','1003','1004','1005'];
-        $b = ['BEN VICTOR','EDCEL MARK','DARIEL','MARIO','CHRISTOPHER'];
-        $c = ['SUMAGANG','PALOMAR','BONGABONG','CUARTERO','VISTAL'];
-        $d = ['LAGUNA','SARIM','CUARTERO','REBUERA','PLATINO'];
+        $b = ['SUMAGANG, BEN VICTOR LAGUNA','PALOMAR, EDCEL MARK SARIM','BONGABONG, DARIEL CUARTERO','CUARTERO, MARIO REBUERA','VISTAL, CHRISTOPHER PLATINO'];
         for($i=0; $i<=4; $i++){
             Employee::create([
                 'EmployeeID' => $a[$i],
-                'Firstname' => $b[$i],
-                'Lastname' => $c[$i],
-                'Middlename' => $d[$i],
-                'amount' => 0,
+                'FullName' => $b[$i],
+                'Amount' => 0,
             ]);
         }
     }

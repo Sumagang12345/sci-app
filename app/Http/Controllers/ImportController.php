@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Imports\ExcelImport;
+use Maatwebsite\Excel\Facades\Excel;
 class ImportController extends Controller
 {
     /**
@@ -36,7 +37,8 @@ class ImportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Excel::import(new ExcelImport,$request->file('file'));
+        return back();
     }
 
     /**
