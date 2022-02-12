@@ -12,8 +12,10 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
 
-Route::get('/import', [ImportController::class, 'index'])->name('import');
-Route::post('create', [ImportController::class, 'store'])->name('import.add');
+Route::get('/import_export', [ImportController::class, 'index'])->name('import_export');
+Route::post('import', [ImportController::class, 'store'])->name('import');
+
+Route::get('export', [ImportController::class, 'create'])->name('export');
 
 
 

@@ -58,11 +58,11 @@
                  <ul class="collapse" id="app" data-parent="#sidebar-menu">
                    <div class="sub-menu">
                      <li>
-                       <a class="sidenav-item-link" href="{{ url('import'); }}"><span class="nav-text">Import / Export Data</span></a>
+                       <a class="sidenav-item-link" href="{{ url('import_export'); }}"><span class="nav-text">Import / Export Data</span></a>
                      </li>
 
                      <li>
-                       <a class="sidenav-item-link" href="{{ url('import'); }}"><span class="nav-text">Post Data</span></a>
+                       <a class="sidenav-item-link" href="{{ url('post'); }}"><span class="nav-text">Post Data</span></a>
                      </li>
                    </div>
                  </ul>

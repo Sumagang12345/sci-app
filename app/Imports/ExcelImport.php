@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Imports;
-use App\Models\employee;
+use App\Models\Employee;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class ExcelImport implements ToModel
@@ -15,7 +15,7 @@ class ExcelImport implements ToModel
     {
         if($row[0] == 'ID'){
         }else{
-            return new employee([
+            return new Employee([
                 'EmployeeID'     => $row[0],
                 'FullName'     => $row[1],
                 'Amount'    => $row[2],

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Imports\ExcelImport;
+use App\Exports\ExcelExport;
 use Maatwebsite\Excel\Facades\Excel;
 class ImportController extends Controller
 {
@@ -26,7 +27,7 @@ class ImportController extends Controller
      */
     public function create()
     {
-        //
+        return Excel::download(new ExcelExport, 'SCIDeductions.xlsx');
     }
 
     /**
