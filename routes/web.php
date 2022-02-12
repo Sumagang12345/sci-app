@@ -21,6 +21,7 @@ Route::get('export', [ImportController::class, 'create'])->name('export');
 
 Route::get('/post', [PostController::class, 'index'])->name('post');
 Route::get('/listOfEmployee', [PostController::class, 'listOfEmployee']);
+Route::post('/update/{employeeID}', [PostController::class, 'update']);
 
 
 
