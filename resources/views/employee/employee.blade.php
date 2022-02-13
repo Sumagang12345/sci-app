@@ -55,7 +55,14 @@
                                     <input type="text" class="form-control" placeholder="Input Amount"></input>
                                 </div>
                         </div>
+                        <div class="col-12 pb-2">
+                            <button id="showData" class="show-details btn btn-success rounded-pill float-right ">
+                                <i class="fas fa-check"> Save</i>
+                            </button>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
