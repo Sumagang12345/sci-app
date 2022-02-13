@@ -13,15 +13,12 @@
                     <button id="addNew" class="show-details btn btn-primary rounded-pill float-right ">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <button id="" class="show-details btn btn-danger rounded-pill float-right mr-2">
-                        <i class="fas fa-trash"></i>
-                    </button>
             </div>
                     <div class="container pt-2">
                             <table style="width:100%" class="table table-striped table-bordered dt-responsive nowrap" id="list-of-employee">
                             <thead>
                                 <tr>
-                                <th>Employee ID</th>
+                                {{-- <th>Employee ID</th> --}}
                                 <th>Fullname</th>
                                 <th>Amount</th>
                                 <th>Option</th>
@@ -45,18 +42,18 @@
                         </button>
                     </div>
                         <div class="row p-3">
-                                <div class="col-2">
+                                {{-- <div class="col-2">
                                     <input type="text" class="form-control" placeholder="Input Emp ID"></input>
+                                </div> --}}
+                                <div class="col-5">
+                                    <input type="text" id="fullname" class="form-control" placeholder="Input Fullname"></input>
                                 </div>
                                 <div class="col-5">
-                                    <input type="text" class="form-control" placeholder="Input Fullname"></input>
-                                </div>
-                                <div class="col-5">
-                                    <input type="text" class="form-control" placeholder="Input Amount"></input>
+                                    <input type="number" id="amount" class="form-control" placeholder="Input Amount"></input>
                                 </div>
                         </div>
                         <div class="col-12 pb-2">
-                            <button id="showData" class="show-details btn btn-success rounded-pill float-right ">
+                            <button id="create" class="show-details btn btn-success rounded-pill float-right">
                                 <i class="fas fa-check"> Save</i>
                             </button>
                         </div>
@@ -89,11 +86,11 @@ $(document).ready(function() {
     },
     ajax: "/listOfEmployee",
     columns: [
-        {
-            class : 'align-middle text-center',
-            data: "EmployeeID",
-            name: "EmployeeID",
-        },
+        //{
+            //class : 'align-middle text-center',
+            //data: "EmployeeID",
+            //name: "EmployeeID",
+        //},
         {
             class : 'align-middle text-center',
             data: "FullName",
@@ -117,8 +114,11 @@ $(document).ready(function() {
                 orderable: false,
                 render : function (_, _, data, row) {
                         return `
-                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) {}, }); });">
+                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ alert('Good Job!!!'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
                                 <i class="fas fa-check"></i>
+                            </button>
+                            <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {var id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ alert('Good Job!!!'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
+                                <i class="fas fa-trash"></i>
                             </button>
                         `;
                 },
@@ -136,6 +136,30 @@ $("#addNew").click(function () {
         $("#empData").attr("class", "container-fluid");
     });
 
+});
+
+$("#create").click(function () {
+    var fullname = $("#fullname").val();
+    var amount = $("#amount").val();
+    if(fullname == '' || amount == ''){
+        alert("Fullname & Amount is required");
+    }else{
+        $.ajax({ 
+        url: '/create', 
+        method: 'POST', 
+        data: { 
+            fullname: fullname,
+            amount: amount 
+            }, 
+            success: function (response) { 
+                if(response.success){ 
+                    alert('Good Job!!!'); 
+                    document.getElementById('fullname').value = '';
+                    document.getElementById('amount').value = '';
+                } 
+            }, 
+    }); 
+    }
 });
 </script>
 @endpush

@@ -47,7 +47,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'fullname'                => 'required',
+            'amount'                => 'required|not_in:0',
+        ], [
+            'fullname.required'       => '<small>Fullname is required</small>',
+            'amount.required'       => '<small>Amount is needed</small>',
+            'amount.not_in'         => '<small>This should not be 0.</small>',
+        ]);
+
+        $employee = new employee();
+        $employee->employeeID = '';
+        $employee->fullname = $request->fullname;
+        $employee->amount = str_replace(',', '', $request->amount);
+        $employee->save();
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -95,6 +109,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = employee::find($id);
+        $employee->delete();
+        return response()->json(['success'=>true]);
     }
 }
