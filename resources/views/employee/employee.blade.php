@@ -114,7 +114,7 @@ $(document).ready(function() {
                 orderable: false,
                 render : function (_, _, data, row) {
                         return `
-                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ alert('Good Job!!!'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
+                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ alert('Good Job!!!'); } },  }); });">
                                 <i class="fas fa-check"></i>
                             </button>
                             <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {var id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ alert('Good Job!!!'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
