@@ -14,11 +14,11 @@
                         <i class="fas fa-plus"></i>
                     </button>
             </div>
-                    <div class="container pt-2">
+                    <div class="p-3">
                             <table style="width:100%" class="table table-striped table-bordered dt-responsive nowrap" id="list-of-employee">
                             <thead>
                                 <tr>
-                                {{-- <th>Employee ID</th> --}}
+                                <th>Employee ID</th>
                                 <th>Fullname</th>
                                 <th>Amount</th>
                                 <th>Option</th>
@@ -86,11 +86,11 @@ $(document).ready(function() {
     },
     ajax: "/listOfEmployee",
     columns: [
-        //{
-            //class : 'align-middle text-center',
-            //data: "EmployeeID",
-            //name: "EmployeeID",
-        //},
+        {
+            class : 'align-middle text-center',
+            data: "EmployeeID",
+            name: "EmployeeID",
+        },
         {
             class : 'align-middle text-center',
             data: "FullName",

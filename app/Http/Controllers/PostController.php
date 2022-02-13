@@ -16,7 +16,7 @@ class PostController extends Controller
     {
 
         return view('employee.employee', [
-            'title' => 'Employee'
+            'title' => 'Employees'
         ]);
     }
 
