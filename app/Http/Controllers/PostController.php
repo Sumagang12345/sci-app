@@ -84,6 +84,7 @@ class PostController extends Controller
         $employee = employee::find($id);
         $employee->amount = str_replace(',', '', $request->amount);
         $employee->save();
+        return response()->json(['success'=>true]);
     }
 
     /**
