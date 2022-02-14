@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\employee;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use RealRashid\SweetAlert\Facades\Alert;
 class PostController extends Controller
 {
     /**

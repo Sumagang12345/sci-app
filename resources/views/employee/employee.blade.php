@@ -114,10 +114,10 @@ $(document).ready(function() {
                 orderable: false,
                 render : function (_, _, data, row) {
                         return `
-                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ alert('Good Job!!!'); } },  }); });">
+                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ swal('Successfully Saved', '', 'success'); } },  }); });">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {var id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ alert('Good Job!!!'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
+                            <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {var id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ swal('Successfully Deleted', '', 'success'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
                                 <i class="fas fa-trash"></i>
                             </button>
                         `;
@@ -139,10 +139,14 @@ $("#addNew").click(function () {
 });
 
 $("#create").click(function () {
-    var fullname = $("#fullname").val();
-    var amount = $("#amount").val();
-    if(fullname == '' || amount == ''){
-        alert("Fullname & Amount is required");
+    let fullname = $("#fullname").val();
+    let amount = $("#amount").val();
+    if(fullname == '' && amount == ''){
+        swal('Fullname and Amount fields are required', '', 'error');
+    }else if(fullname == ''){
+        swal('Fullname field is required', '', 'error');
+    }else if(amount == ''){
+        swal('Amount field is required', '', 'error');
     }else{
         $.ajax({ 
         url: '/create', 
@@ -153,7 +157,7 @@ $("#create").click(function () {
             }, 
             success: function (response) { 
                 if(response.success){ 
-                    alert('Good Job!!!'); 
+                    swal('Successfully Saved', '', 'success'); 
                     document.getElementById('fullname').value = '';
                     document.getElementById('amount').value = '';
                 } 

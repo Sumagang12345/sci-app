@@ -153,6 +153,8 @@
     <script src="https://unpkg.com/sleek-dashboard/dist/assets/js/sleek.bundle.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @include('sweetalert::alert')
     @stack('page-scripts')
 </body>
 </html>
