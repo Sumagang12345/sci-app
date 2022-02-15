@@ -246,31 +246,44 @@
 
          $('#btnSendData').click(function () {
             let data = $('#formSendData').serialize();
-            if(window.navigator.onLine == true){
-                $.ajax({
-                url: '/send-data',
-                method: 'POST',
-                data : data,
-                success: function (response) {
-                    if(response.success) {
-                        table.ajax.reload();
-                        swal({
-                            title: "Good job!",
-                            text: "You successfully pust data",
-                            icon: "success",
-                            buttons : false,
-                            timer : 1000,
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to post this deductions?",
+                    icon: "warning",
+                    button: {
+                        text: "Okay",
+                        closeModal: false,
+                        },
+                })
+               .then(function (isConfirmed) {
+                if (isConfirmed) {
+                    if(window.navigator.onLine == true){
+                        $.ajax({
+                        url: '/send-data',
+                        method: 'POST',
+                        data : data,
+                        success: function (response) {
+                            if(response.success) {
+                                //table.ajax.reload();
+                                swal.stopLoading();
+                                swal.close();
+                                swal({
+                                    title: "Good job!",
+                                    text: "You successfully post deductions",
+                                    icon: "success",
+                                    button : 'Okay',
+                                });
+
+                            }
+                        }
                         });
+                    }else{
+                        swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
                     }
-                }
-                });
-            }else{
-                swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
-            }
+               }
+               });
         });
-
     });
-
 </script>
 @endpush
 @endsection
