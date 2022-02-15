@@ -17,7 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('EmployeeID')->nullable();
             $table->string('FullName')->nullable();
-            $table->decimal('Amount', 11,2)->nullable();
+            $table->decimal('Amount', 11,2);
             $table->timestamps();
         });
     }

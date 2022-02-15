@@ -18,7 +18,7 @@
                             <table style="width:100%" class="table table-striped table-bordered dt-responsive nowrap" id="list-of-employee">
                             <thead>
                                 <tr>
-                                <th>Employee ID</th>
+                                {{-- <th>Employee ID</th> --}}
                                 <th>Fullname</th>
                                 <th>Amount</th>
                                 <th>Option</th>
@@ -86,11 +86,11 @@ $(document).ready(function() {
     },
     ajax: "/listOfEmployee",
     columns: [
-        {
-            class : 'align-middle text-center',
-            data: "EmployeeID",
-            name: "EmployeeID",
-        },
+        //{
+        //    class : 'align-middle text-center',
+        //    data: "EmployeeID",
+        //    name: "EmployeeID",
+        //},
         {
             class : 'align-middle text-center',
             data: "FullName",
@@ -114,10 +114,10 @@ $(document).ready(function() {
                 orderable: false,
                 render : function (_, _, data, row) {
                         return `
-                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {var amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ swal('Successfully Saved', '', 'success'); } },  }); });">
+                            <button data-row="" class="show-details btn btn-success rounded-pill" onclick="$(function () {let amount = document.getElementById('amount${data['id']}').innerHTML; $.ajax({ url: '/update/${data['id']}', method: 'POST', data: { amount: amount }, success: function (response) { if(response.success){ swal('Successfully Saved', '', 'success'); } },  }); });">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {var id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ swal('Successfully Deleted', '', 'success'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
+                            <button id="delete" class="show-details btn btn-danger rounded-pill float-right mr-2" onclick="$(function () {let id = ('${data['id']}'); $.ajax({ url: '/delete/${data['id']}', method: 'POST', success: function (response) { if(response.success){ swal('Successfully Deleted', '', 'success'); setTimeout(function () { location.reload(); }, 1000); } },  }); });">
                                 <i class="fas fa-trash"></i>
                             </button>
                         `;
@@ -137,6 +137,16 @@ $("#addNew").click(function () {
     });
 
 });
+//let amount = '1,000';
+//if(amount == ''){
+//    swal('Amount field is required', '', 'error');
+//}else if((amount.includes(",") == true) || (amount.includes(".") == true) || (amount.includes("1") == true) || (amount.includes//("2") == true) || (amount.includes("3") == true) || (amount.includes("4") == true) || (amount.includes("5") == true) || //(amount.includes("6") == true) || (amount.includes("7") == true) || (amount.includes("8") == true) || (amount.includes("9") == //true) || (amount.includes("0") == true)){
+//
+//    let result = ;
+//    swal('Amount field is not a Number', '', 'error');
+//}else{
+//    swal('gooo', '', 'error');
+//}
 
 $("#create").click(function () {
     let fullname = $("#fullname").val();

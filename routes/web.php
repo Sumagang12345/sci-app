@@ -14,10 +14,11 @@ Route::redirect('/', 'login');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('print-employees', function () {
     $employees = Employee::get();
+    $totalAmount = number_format(Employee::sum('amount'), 2, '.', ',');
     $pdf = App::make('snappy.pdf.wrapper');
 
     $pdf->loadView('reports.employees-print',
-        compact('employees'))
+        compact(['employees','totalAmount']))
         ->setPaper('a4')
         ->setOption('margin-bottom', 0)
         ->setOrientation('portrait');
@@ -29,10 +30,10 @@ Route::post('send-data', function (Request $request) {
     $data = array_filter($request->amounts);
     foreach($data as  $index => $amount) {
         Employee::updateOrCreate([
-            'EmployeeID' => $request->ids[$index],
+            'EmployeeID' => '',
             'FullName' => $request->fullnames[$index],
         ], [
-            'EmployeeID' => $request->ids[$index],
+            'EmployeeID' => '',
             'FullName' => $request->fullnames[$index],
             'Amount' => $amount
         ]);

@@ -107,9 +107,13 @@
 @section('content')
 
 <div class="p-1">
-    <div class="alert alert-primary" role="alert">
-        All records display in this page is posted on (DATE)
+    {{-- <div class="alert alert-success" id="statusConnected" role="alert">
+        <h2><span class="material-icons" style="font-size: 35px;">wifi</span> Connected to Internet</h2>
     </div>
+    <div class="alert alert-danger" id="statusDisconnected" role="alert">
+        <h2><span class="material-icons" style="font-size: 35px;">signal_wifi_connected_no_internet_4</span>&nbsp; Disconnected to Internet</h2>
+        <h4 style="margin-left: 50px;"><center>Unable to Post Deductions.<br> Please Check the Connection and Try Again.</center></h4>
+    </div> --}}
 </div>
 <div class="card">
     <div class="card-header">
@@ -120,7 +124,7 @@
             <table class='table table-bordered table-hover' id='employees-table' width="100%;">
                 <thead>
                     <tr>
-                        <th class='lead'>EMPLOYEE ID</th>
+                        {{-- <th class='lead'>EMPLOYEE ID</th> --}}
                         <td class='lead'>FULLNAME</td>
                         <th class='lead'>AMOUNT</th>
                     </tr>
@@ -174,6 +178,8 @@
 </script>
 <script>
     $(document).ready(function () {
+        //$('#statusConnected').hide();
+        //$('#statusDisconnected').hide();
         $('[data-toggle="tooltip"]').tooltip()
 
 
@@ -189,19 +195,20 @@
                 processing: '<i class="spinner-border"></i><span class="sr-only">Loading...</span> ',
             },
             ajax: "/listOfEmployee",
-            columns: [{
-                    class: 'align-middle text-center lead font-weight-medium w-15 text-center',
-                    data: "EmployeeID",
-                    name: "EmployeeID",
-                    render: function (rawData) {
-                        if (rawData) {
-                            let ID = rawData.padStart(4, "0")
-                            return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly value="${ID}">`;
-                            return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
-                        } 
-                        return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
-                    }
-                },
+            columns: [
+                //{
+                    //class: 'align-middle text-center lead font-weight-medium w-15 text-center',
+                    //data: "EmployeeID",
+                    //name: "EmployeeID",
+                    //render: function (rawData) {
+                    //    if (rawData) {
+                    //        let ID = rawData.padStart(4, "0")
+                    //        return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly value="${ID}">`;
+                    //        return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
+                    //    } 
+                    //    return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
+                    //}
+                //},
                 {
                     class: 'align-middle lead font-weight-medium text-dark',
                     data: "FullName",
@@ -228,9 +235,6 @@
             $('#employeeRow').append(`
                 <tr>
                     <td>
-                        <input class='form-control text-center lead font-weight-medium ' name='ids[]' placeholder="Enter Employee ID">
-                    </td>
-                    <td>
                         <input class='form-control lead font-weight-medium '  name='fullnames[]' placeholder="Enter Fullname">
                     </td>
                     <td>
@@ -242,8 +246,8 @@
 
          $('#btnSendData').click(function () {
             let data = $('#formSendData').serialize();
-
-            $.ajax({
+            if(window.navigator.onLine == true){
+                $.ajax({
                 url: '/send-data',
                 method: 'POST',
                 data : data,
@@ -259,11 +263,13 @@
                         });
                     }
                 }
-            });
+                });
+            }else{
+                swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
+            }
         });
-    });
 
-   
+    });
 
 </script>
 @endpush

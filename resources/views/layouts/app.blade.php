@@ -27,7 +27,7 @@
     </style>
 
 </head>
-<body>
+<body onload="setInterval(function(){ if(window.navigator.onLine == true){ document.getElementById('connections').setAttribute('src','{{url('assets/images/connected.png')}}'); }else{ document.getElementById('connections').setAttribute('src','{{url('assets/images/disconnected.png')}}'); }}, 1000);">
     <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
   <div class="wrapper">
     <!-- left-sidebar -->
@@ -65,7 +65,7 @@
                      </li>
 
                      <li>
-                       <a class="sidenav-item-link" href="{{ url('post'); }}"><span class="nav-text">Post Data</span></a>
+                       <a class="sidenav-item-link" href="{{ url('post'); }}"><span class="nav-text">Employee List</span></a>
                      </li>
                    </div>
                  </ul>
@@ -115,7 +115,8 @@
               <!-- Sidebar toggle button -->
               <button id="sidebar-toggler" class="sidebar-toggle">
                 <span class="sr-only">Toggle navigation</span>
-              </button>
+              </button>&nbsp;&nbsp;
+              <img id="connections" alt="Image" src="{{url('assets/images/connected.png')}}" width="4%"/> 
               <!-- search form -->
               <div class="search-form d-none d-lg-inline-block">
                 <div class="input-group">

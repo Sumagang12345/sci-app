@@ -82,6 +82,9 @@
     <p class='text-uppercase font-weight-bold'>
         Total Employees : {{ $employees->count() }}
     </p>
+    <p class='text-uppercase font-weight-bold'>
+        Total Amount : {{ $totalAmount }}
+    </p>
 
     <table width='100%' cellpadding="3" border="1">
         <thead>
@@ -96,7 +99,7 @@
             <tr>
                 <td class='text-center'>{{ str_pad($employee->EmployeeID, 4, "0", STR_PAD_LEFT) }}</td>
                 <td>{{ $employee->FullName }}</td>
-                <td class='text-center'>{{ $employee->Amount }}</td>
+                <td class='text-center'>{{ number_format($employee->Amount, 2, '.', ','); }}</td>
             </tr>
             @endforeach
         </tbody>
