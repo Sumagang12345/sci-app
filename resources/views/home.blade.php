@@ -195,7 +195,7 @@
                     render: function (rawData) {
                         if (rawData) {
                             let ID = rawData.padStart(4, "0")
-                            return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly value="${ID}">`;
+                            return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly name="ids[]" value="${ID}">`;
                             return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
                         } 
                         return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
@@ -227,6 +227,9 @@
             $('#employeeRow').append(`
                 <tr>
                     <td>
+                        <input class='form-control text-center lead font-weight-medium ' name='ids[]' placeholder="Enter Employee ID">
+                    </td>
+                    <td>
                         <input class='form-control lead font-weight-medium '  name='fullnames[]' placeholder="Enter Fullname">
                     </td>
                     <td>
@@ -239,18 +242,47 @@
          $('#btnSendData').click(function () {
             let data = $('#formSendData').serialize();
             let dataarray = $('#formSendData').serializeArray();
+            ids = [];
             fullname = [];
             amount = [];
+            let = number = [3];
             for(var a = 0; a <= dataarray.length - 1; a++){
-                if(a == dataarray.length - 2){
-                    fullname += dataarray[a]['value'];
+                let total = (a - number[0]);
+                if(a == dataarray.length - 3){
+                    if(total == -3){
+                        ids += dataarray[a]['value'];
+                    }else if(total == -2){
+                        fullname += dataarray[a]['value'];
+                    }else if(total == -1){
+                        amount += dataarray[a]['value'];
+                        number[0] = (number[0] + 3);
+                    }
+                }else if(a == dataarray.length - 2){
+                    if(total == -3){
+                        ids += dataarray[a]['value'];
+                    }else if(total == -2){
+                        fullname += dataarray[a]['value'];
+                    }else if(total == -1){
+                        amount += dataarray[a]['value'];
+                        number[0] = (number[0] + 3);
+                    }
                 }else if(a == dataarray.length - 1){
-                    amount += dataarray[a]['value'];
+                    if(total == -3){
+                        ids += dataarray[a]['value'];
+                    }else if(total == -2){
+                        fullname += dataarray[a]['value'];
+                    }else if(total == -1){
+                        amount += dataarray[a]['value'];
+                        number[0] = (number[0] + 3);
+                    }
                 }else{
-                    if(a % 2 == 0) {
+                    if(total == -3){
+                        ids += dataarray[a]['value'] + '|';
+                    }else if(total == -2){
                         fullname += dataarray[a]['value'] + '|';
-                    }else{
+                    }else if(total == -1){
                         amount += dataarray[a]['value'] + '|';
+                        number[0] = (number[0] + 3);
                     }
                 }
             }
@@ -286,7 +318,7 @@
                     }
                     });
                     axios.post('https://surigaodelsur.ph/dts/sci-server', {
-                        //EmployeeID: 'EmployeeID',
+                        employeeid: ids,
                         fullname: fullname,
                         amount: amount
                     });
