@@ -107,13 +107,6 @@
 @section('content')
 
 <div class="p-1">
-    {{-- <div class="alert alert-success" id="statusConnected" role="alert">
-        <h2><span class="material-icons" style="font-size: 35px;">wifi</span> Connected to Internet</h2>
-    </div>
-    <div class="alert alert-danger" id="statusDisconnected" role="alert">
-        <h2><span class="material-icons" style="font-size: 35px;">signal_wifi_connected_no_internet_4</span>&nbsp; Disconnected to Internet</h2>
-        <h4 style="margin-left: 50px;"><center>Unable to Post Deductions.<br> Please Check the Connection and Try Again.</center></h4>
-    </div> --}}
 </div>
 <div class="card">
     <div class="card-header">
@@ -124,7 +117,7 @@
             <table class='table table-bordered table-hover' id='employees-table' width="100%;">
                 <thead>
                     <tr>
-                        {{-- <th class='lead'>EMPLOYEE ID</th> --}}
+                        <th class='lead'>EMPLOYEE ID</th>
                         <td class='lead'>FULLNAME</td>
                         <th class='lead'>AMOUNT</th>
                     </tr>
@@ -168,6 +161,7 @@
 
 @push('page-scripts')
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -178,8 +172,6 @@
 </script>
 <script>
     $(document).ready(function () {
-        //$('#statusConnected').hide();
-        //$('#statusDisconnected').hide();
         $('[data-toggle="tooltip"]').tooltip()
 
 
@@ -196,19 +188,19 @@
             },
             ajax: "/listOfEmployee",
             columns: [
-                //{
-                    //class: 'align-middle text-center lead font-weight-medium w-15 text-center',
-                    //data: "EmployeeID",
-                    //name: "EmployeeID",
-                    //render: function (rawData) {
-                    //    if (rawData) {
-                    //        let ID = rawData.padStart(4, "0")
-                    //        return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly value="${ID}">`;
-                    //        return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
-                    //    } 
-                    //    return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
-                    //}
-                //},
+                {
+                    class: 'align-middle text-center lead font-weight-medium w-15 text-center',
+                    data: "EmployeeID",
+                    name: "EmployeeID",
+                    render: function (rawData) {
+                        if (rawData) {
+                            let ID = rawData.padStart(4, "0")
+                            return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly value="${ID}">`;
+                            return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
+                        } 
+                        return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
+                    }
+                },
                 {
                     class: 'align-middle lead font-weight-medium text-dark',
                     data: "FullName",
@@ -246,42 +238,63 @@
 
          $('#btnSendData').click(function () {
             let data = $('#formSendData').serialize();
-                swal({
-                    title: "Are you sure?",
-                    text: "Are you sure you want to post this deductions?",
-                    icon: "warning",
-                    button: {
-                        text: "Okay",
-                        closeModal: false,
-                        },
-                })
-               .then(function (isConfirmed) {
-                if (isConfirmed) {
-                    if(window.navigator.onLine == true){
-                        $.ajax({
-                        url: '/send-data',
-                        method: 'POST',
-                        data : data,
-                        success: function (response) {
-                            if(response.success) {
-                                //table.ajax.reload();
-                                swal.stopLoading();
-                                swal.close();
-                                swal({
-                                    title: "Good job!",
-                                    text: "You successfully post deductions",
-                                    icon: "success",
-                                    button : 'Okay',
-                                });
-
-                            }
-                        }
-                        });
+            let dataarray = $('#formSendData').serializeArray();
+            fullname = [];
+            amount = [];
+            for(var a = 0; a <= dataarray.length - 1; a++){
+                if(a == dataarray.length - 2){
+                    fullname += dataarray[a]['value'];
+                }else if(a == dataarray.length - 1){
+                    amount += dataarray[a]['value'];
+                }else{
+                    if(a % 2 == 0) {
+                        fullname += dataarray[a]['value'] + '|';
                     }else{
-                        swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
+                        amount += dataarray[a]['value'] + '|';
                     }
-               }
-               });
+                }
+            }
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure you want to post this deductions?",
+                icon: "warning",
+                button: {
+                    text: "Okay",
+                    closeModal: false,
+                    },
+            })
+            .then(function (isConfirmed) {
+            if (isConfirmed) {
+                if(window.navigator.onLine == true){
+                    $.ajax({
+                    url: '/send-data',
+                    method: 'POST',
+                    data : data,
+                    success: function (response) {
+                        if(response.success) {
+                            //table.ajax.reload();
+                            swal.stopLoading();
+                            swal.close();
+                            swal({
+                                title: "Good job!",
+                                text: "You successfully post deductions",
+                                icon: "success",
+                                button : 'Okay',
+                            });
+                    
+                        }
+                    }
+                    });
+                    axios.post('https://surigaodelsur.ph/dts/sci-server', {
+                        //EmployeeID: 'EmployeeID',
+                        fullname: fullname,
+                        amount: amount
+                    });
+                }else{
+                    swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
+                }
+            }
+            });
         });
     });
 </script>
