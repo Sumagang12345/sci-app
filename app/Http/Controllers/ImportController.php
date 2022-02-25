@@ -17,18 +17,9 @@ class ImportController extends Controller
     public function index()
     {
         $employee = Employee::get();
-        if(count($employee) == 0){
-            $disabled1 = 'submit';
-            $disabled2 = '';
-            $disabled3 = '';
-        }else{
-            $disabled1 = 'button';
-            $disabled2 = 'disabled';
-            $disabled3 = 'style=cursor:not-allowed;';
-        }
         return view('import.import', [
             'title' => 'Import / Export Data'
-        ],compact('disabled1','disabled2','disabled3'));
+        ]);
     }
 
     /**
@@ -49,11 +40,8 @@ class ImportController extends Controller
      */
     public function store(Request $request)
     {
-        $employee = Employee::get();
-        if(count($employee) == 0){
-            Excel::import(new ExcelImport,$request->file('file'));
-        return back();
-        }
+        Excel::import(new ExcelImport($request->post_date), $request->file('file'));
+        return back()->with('success', 'You have successfully Import a data.');
     }
 
     /**

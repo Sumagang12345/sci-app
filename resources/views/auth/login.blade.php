@@ -1,245 +1,151 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/pattern.css" rel="stylesheet">
+    <title>Document</title>
+</head>
 <style>
-body, html {
-    height: 100%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-}
+    * {
+        font-family : Inter, sans-serif;
+    }
+    body {
+        background-color: #070d18;
+    }
 
-.card-container.card {
-    max-width: 350px;
-    padding: 40px 40px;
-}
+    a {
+        text-decoration: none;
+    }
 
-.btn {
-    font-weight: 700;
-    height: 36px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: default;
-}
+    .card {
+        font-family: sans-serif;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 3em;
+        margin-bottom: 3em;
+        border-radius: 10px;
+        background-color: #ffff;
+        padding: 1.8rem;
+        box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.1);
+    }
 
-/*
- * Card component
- */
-.card {
-    background-color: #F7F7F7;
-    /* just in case there no content*/
-    padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
-    /* shadows and rounded borders */
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
+    .title {
+        text-align: center;
+        font-weight: bold;
+        margin: 0;
+    }
 
-.profile-img-card {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-}
+    .subtitle {
+        text-align: center;
+        font-weight: bold;
+    }
 
-/*
- * Form styles
- */
-.profile-name-card {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    margin: 10px 0 0;
-    min-height: 1em;
-}
+    .btn-text {
+        margin: 0;
+    }
 
-.reauth-email {
-    display: block;
-    color: #404040;
-    line-height: 2;
-    margin-bottom: 10px;
-    font-size: 14px;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
 
-.form-signin #inputEmail,
-.form-signin #inputPassword {
-    direction: ltr;
-    height: 44px;
-    font-size: 16px;
-}
+    .google-btn {
+        background: #fff;
+        border: solid 2px rgb(245 239 239);
+        border-radius: 8px;
+        font-weight: bold;
+        display: flex;
+        padding: 10px 10px;
+        flex: auto;
+        align-items: center;
+        gap: 5px;
+        justify-content: center;
+    }
 
-.form-signin input[type=email],
-.form-signin input[type=password],
-.form-signin input[type=text],
-.form-signin button {
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    z-index: 1;
-    position: relative;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    .fb-btn {
+        background: #fff;
+        border: solid 2px rgb(69, 69, 185);
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
 
-.form-signin .form-control:focus {
-    border-color: rgb(104, 145, 162);
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-}
+    .or {
+        text-align: center;
+        font-weight: bold;
+        border-bottom: 2px solid rgb(245 239 239);
+        line-height: 0.1em;
+        margin: 25px 0;
+    }
 
-.btn.btn-signin {
-    background-color: rgb(104, 145, 162);
-    padding: 0px;
-    font-weight: 700;
-    font-size: 14px;
-    height: 36px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    border: none;
-    -o-transition: all 0.218s;
-    -moz-transition: all 0.218s;
-    -webkit-transition: all 0.218s;
-    transition: all 0.218s;
-}
+    .or span {
+        background: #fff;
+        padding: 0 10px;
+    }
 
-.btn.btn-signin:hover,
-.btn.btn-signin:active,
-.btn.btn-signin:focus {
-    background-color: rgb(12, 97, 33);
-}
+    .email-login {
+        display: flex;
+        flex-direction: column;
+    }
 
-.forgot-password {
-    color: rgb(104, 145, 162);
-}
+    .email-login label {
+        color: rgb(170 166 166);
+    }
 
-.forgot-password:hover,
-.forgot-password:active,
-.forgot-password:focus{
-    color: rgb(12, 97, 33);
-}
+    input[type="text"],
+    input[type="password"] {
+        padding: 15px 20px;
+        margin-top: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    .cta-btn {
+        background-color: rgb(69, 69, 185);
+        color: white;
+        padding: 18px 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .forget-pass {
+        text-align: center;
+        display: block;
+    }
+
+    .is-invalid {
+        border : 1px solid red;
+        shadow :0px 2px 3px red;
+    }
+
 </style>
-    <div class="container">
-        <div class="card card-container">
-            <img id="profile-img" class="profile-img-card" src="{{ asset('user-profile.png') }}" />
-            <p id="profile-name" class="profile-name-card"></p>
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="row mb-12">
-                    <div class="col-md-12">
-                        <input placeholder="Enter Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-                        @error('username')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="pt-3 row mb-12">
-                    <div class="col-md-12">
-                        <input placeholder="Enter Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="pt-3 row mb-0 float-right">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Login') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-{{-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<body class='pattern-diagonal-lines-lg'>
+    <div class="card" style="margin-top : 150px;">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <p class="subtitle">Welcome to {{ config('app.name') }}</p>
+            <h2 class="title"> Sign In</h2>
+            <p class="or"><span></span></p>
+            <div class="email-login">
+                <label for="email" style="color:black;"> <b>Username</b></label>
+                <input type="text" placeholder="Enter username" name="username" style="{{ $errors->has('username') ? 'border: 1px solid red;'  : ''}}">
+                <label for="psw" style="color:black;"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="password" style="{{ $errors->has('username') ? 'border: 1px solid red;'  : ''}}">
             </div>
-        </div>
+            <button class="cta-btn" type="submit">SIGN IN</button>
+            </form>
     </div>
-</div> --}}
+</body>
 
+</html>

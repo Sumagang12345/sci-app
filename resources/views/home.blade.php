@@ -1,7 +1,12 @@
 @extends('layouts.app')
 @section('page-title', $title)
+@prepend('meta-data')
+<meta name="values" content="{{ $employees }}">
+@endprepend
 @prepend('page-css')
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="{{ asset('assets/css/datepicker.css') }}">
 <style>
     .w-15 {
         width: 15%;
@@ -105,27 +110,55 @@
 </style>
 @endprepend
 @section('content')
-
-<div class="p-1">
-</div>
 <div class="card">
     <div class="card-header">
-        <h5 class='text-dark text-uppercase'>Post Data</h3>
+        <h5 class='text-dark'>Post Data</h3>
     </div>
     <div class="card-body">
+        <div class="form-group mb-3">
+            <p class='text-dark mb-1'>Post Month</p>
+            <input type="text" name="post_date" class='datepicker form-control' id="postMonths"
+                value="{{ date('m-Y') }}">
+        </div>
         <form method="POST" id="formSendData">
-            <table class='table table-bordered table-hover' id='employees-table' width="100%;">
+
+            <table class='table table-bordered table-hover' id='' width="100%;">
                 <thead>
                     <tr>
-                        <th class='lead'>EMPLOYEE ID</th>
-                        <td class='lead'>FULLNAME</td>
-                        <th class='lead'>AMOUNT</th>
+                        <th class='lead text-dark'>EMPLOYEE ID</th>
+                        <td class='lead text-dark'>FULLNAME</td>
+                        <th class='lead text-dark'>AMOUNT</th>
                     </tr>
                 </thead>
-                <tbody id="employeeRow"></tbody>
+                <tbody id="employeeRow">
+
+                    @foreach($employees as $employee)
+                    <tr>
+                        <td class='text-dark'>
+                            <input class='form-control lead font-weight-medium border-0 bg-transparent need-to-submit'
+                                data-id="{{ $loop->index + 1 }}" data-row="{{ $loop->index + 1 }}" name='ids[]'
+                                value="{{ $employee->EmployeeID }}">
+                        </td>
+                        <td class='text-dark'>
+                            <input class='form-control lead font-weight-medium border-0 bg-transparent'
+                                data-fullname="{{ $loop->index + 1 }}" data-row="{{ $loop->index + 1 }}" readonly
+                                name='fullnames[]' value="{{ $employee->FullName }}">
+                        </td>
+                        <td class='text-dark'>
+                            <input class='form-control lead font-weight-medium text-center need-to-submit'
+                                data-amount="{{ $loop->index + 1 }}" data-row="{{ $loop->index + 1 }}" type="number"
+                                name='amounts[]' value="{{ $employee->Amount ?? '' }}">
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
         </form>
     </div>
+
 </div>
 
 <div class="fab-container position-fixed">
@@ -162,6 +195,8 @@
 @push('page-scripts')
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" integrity="sha512-iqRVtNB+t9O+epcgUTIPF+nklypcR23H1yR1NFM9kffn6/iBhZ9bTB6oKLaGMv8JE9UgjcwfBFg/eHC/VMws+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -172,163 +207,154 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        let elements = [];
+        let socket = io.connect('https://surigaodelsur.ph:3030');
 
-
-        let table = $("#employees-table").DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            order: 1,
-            retrieve: true,
-            paging: false,
-            destroy: true,
-            language: {
-                processing: '<i class="spinner-border"></i><span class="sr-only">Loading...</span> ',
-            },
-            ajax: "/listOfEmployee",
-            columns: [
-                {
-                    class: 'align-middle text-center lead font-weight-medium w-15 text-center',
-                    data: "EmployeeID",
-                    name: "EmployeeID",
-                    render: function (rawData) {
-                        if (rawData) {
-                            let ID = rawData.padStart(4, "0")
-                            return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' readonly name="ids[]" value="${ID}">`;
-                            return `<input type="hidden" class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]" readonly value="${rawData}">`;
-                        } 
-                        return `<input class='form-control text-center lead font-weight-medium border-0 bg-transparent' name="ids[]"  value="${rawData}">`;
-                    }
-                },
-                {
-                    class: 'align-middle lead font-weight-medium text-dark',
-                    data: "FullName",
-                    name: "FullName",
-                    render: function (rawData) {
-                        return `<input class='form-control lead font-weight-medium border-0 bg-transparent' readonly  name='fullnames[]' value="${rawData || ''}">`;
-                    },
-                },
-                {
-                    class: 'align-middle text-center lead font-weight-medium text-dark',
-                    data: "Amount",
-                    name: "Amount",
-                    render: function (rawData) {
-                        return `<input class='form-control lead font-weight-medium text-center' type="number" name='amounts[]' value="${rawData || 0}">`;
-                    }
-                },
-            ],
+        $('.datepicker').datepicker({
+            format: "mm-yyyy",
+            viewMode: "months",
+            minViewMode: "months"
         });
+
+
+        $('[data-toggle="tooltip"]').tooltip()
 
         $("#addNewRecord").click(function () {
             $("html, body").animate({
                 scrollTop: $(document).height()
             }, 0);
+
+            let rowID = $('#employeeRow').children().length + 1;
             $('#employeeRow').append(`
-                <tr>
+                <tr id='row-${rowID}'>
                     <td>
-                        <input class='form-control text-center lead font-weight-medium ' name='ids[]' placeholder="Enter Employee ID">
+                        <input class='form-control text-center lead font-weight-medium need-to-submit' data-id="${rowID}" data-row="${rowID}" name='ids[]' placeholder="Enter Employee ID">
                     </td>
                     <td>
-                        <input class='form-control lead font-weight-medium '  name='fullnames[]' placeholder="Enter Fullname">
+                        <input class='form-control lead font-weight-medium need-to-submit' data-fullname="${rowID}" data-row="${rowID}" name='fullnames[]' placeholder="Enter Fullname">
                     </td>
                     <td>
-                       <input class='form-control lead font-weight-medium text-center' type="number" name='amounts[]' placeholder="Enter amount" value="0">
+                       <input class='form-control lead font-weight-medium text-center need-to-submit' data-amount="${rowID}" data-row="${rowID}" type="number" name='amounts[]' placeholder="Enter amount" value="0">
+                    </td>
+                    <td class='text-center'>
+                        <button class='btn btn-danger remove-field shadow' data-row="${rowID}" type='button'>
+                            <i class='fas fa-times'></i>
+                        </button>
                     </td>
                 </tr>
             `);
         });
 
-         $('#btnSendData').click(function () {
-            let data = $('#formSendData').serialize();
+        $(document).on('change', '.need-to-submit', function (e) {
+            let id = $(this).attr('data-row');
+            elements.push(id);
+        });
+
+        $(document).on('click', '.remove-field', function () {
+            let ID = $(this).attr('data-row');
+            $(`#row-${ID}`).remove();
+        });
+
+        let swalCustomMessage = (text, icon, others) => {
+            let messageContent = document.createElement('p');
+            messageContent.classList.add('text-dark')
+            messageContent.innerHTML = `<center> <br> ${text} </center>`;
+            return swal({
+                content: messageContent,
+                icon: icon,
+                ...others
+            });
+        };
+
+        $('#btnSendData').click(function () {
+            let elemenetsIDWithChanges = [...new Set(elements)];
+            let ids = [];
+            let fullnames = [];
+            let amounts = [];
+
             let dataarray = $('#formSendData').serializeArray();
-            ids = [];
-            fullname = [];
-            amount = [];
-            let = number = [3];
-            for(var a = 0; a <= dataarray.length - 1; a++){
-                let total = (a - number[0]);
-                if(a == dataarray.length - 3){
-                    if(total == -3){
-                        ids += dataarray[a]['value'];
-                    }else if(total == -2){
-                        fullname += dataarray[a]['value'];
-                    }else if(total == -1){
-                        amount += dataarray[a]['value'];
-                        number[0] = (number[0] + 3);
-                    }
-                }else if(a == dataarray.length - 2){
-                    if(total == -3){
-                        ids += dataarray[a]['value'];
-                    }else if(total == -2){
-                        fullname += dataarray[a]['value'];
-                    }else if(total == -1){
-                        amount += dataarray[a]['value'];
-                        number[0] = (number[0] + 3);
-                    }
-                }else if(a == dataarray.length - 1){
-                    if(total == -3){
-                        ids += dataarray[a]['value'];
-                    }else if(total == -2){
-                        fullname += dataarray[a]['value'];
-                    }else if(total == -1){
-                        amount += dataarray[a]['value'];
-                        number[0] = (number[0] + 3);
-                    }
-                }else{
-                    if(total == -3){
-                        ids += dataarray[a]['value'] + '|';
-                    }else if(total == -2){
-                        fullname += dataarray[a]['value'] + '|';
-                    }else if(total == -1){
-                        amount += dataarray[a]['value'] + '|';
-                        number[0] = (number[0] + 3);
-                    }
+            const LAST_CHARACTER = -1;
+            let stringIDS = "";
+            let stringFullNames = "";
+            let stringAmounts = "";
+
+            elemenetsIDWithChanges.map((id) => {
+                let employeeID = $(`input[data-id=${id}]`).val();
+                let fullName = $(`input[data-fullname=${id}]`).val() || '';
+                let sciAmount = $(`input[data-amount=${id}]`).val() || 0;
+
+                ids.push(employeeID);
+                fullnames.push(fullName);
+                amounts.push(sciAmount);
+            });
+
+            $.ajax({
+                url: '/send-data',
+                method: 'POST',
+                data: {
+                    ids,
+                    fullnames,
+                    amounts,
+                    post_month: $('#postMonths').val(),
+                },
+                success: function (response) {
+
+                }
+            });
+
+            for (let index = 0; index <= dataarray.length - 1; index++) {
+                let {
+                    name,
+                    value
+                } = dataarray[index];
+                key = name.replace("[]", "", /ig/);
+
+                if (key.includes('ids')) {
+                    stringIDS += `${value}|`;
+                }
+                if (key.includes('fullnames')) {
+                    stringFullNames += `${value}|`;
+                }
+
+                if (key.includes('amounts')) {
+                    stringAmounts += `${value}|`;
                 }
             }
-            swal({
-                title: "Are you sure?",
-                text: "Are you sure you want to post this deductions?",
-                icon: "warning",
-                button: {
-                    text: "Okay",
-                    closeModal: false,
-                    },
-            })
-            .then(function (isConfirmed) {
-            if (isConfirmed) {
-                if(window.navigator.onLine == true){
-                    $.ajax({
-                    url: '/send-data',
-                    method: 'POST',
-                    data : data,
-                    success: function (response) {
-                        if(response.success) {
-                            //table.ajax.reload();
-                            swal.stopLoading();
-                            swal.close();
-                            swal({
-                                title: "Good job!",
-                                text: "You successfully post deductions",
-                                icon: "success",
-                                button : 'Okay',
+                swalCustomMessage("Are you sure you want to post this deductions this process would need an Internet connection", "warning", { 
+                    button : {
+                        text : "Yes",
+                        closeModal : false,
+                    }
+                }).then((isConfirmed) => {
+                    if (isConfirmed) {
+                        if (window.navigator.onLine == true) {
+                            axios.post('https://surigaodelsur.ph/dts/sci-server', {
+                                employeeid: stringIDS,
+                                fullname: stringFullNames,
+                                amount: stringAmounts,
+                                postDate : $('#postMonths').val(),
+                            }).then((response) => {
+                                swal.close();
+                                swal.stopLoading();
+                                socket.emit('SCI_UPLOAD');
+                                swalCustomMessage("You have successfully post the deductions", "success", {
+                                    buttons : false,
+                                    timer : 5000,
+                                });
                             });
-                    
+                        } else {
+                            swalCustomMessage("Unable to post deductions please check your internet connection and try again ", "error", {
+                                    buttons : false,
+                                    timer : 5000,
+                                });
                         }
                     }
-                    });
-                    axios.post('https://surigaodelsur.ph/dts/sci-server', {
-                        employeeid: ids,
-                        fullname: fullname,
-                        amount: amount
-                    });
-                }else{
-                    swal('Unable to Post Deductions.', 'Please Check the Connection and Try Again.', 'error');
-                }
-            }
-            });
+                });
+
         });
+
     });
+
 </script>
 @endpush
 @endsection

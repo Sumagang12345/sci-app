@@ -1,45 +1,69 @@
 @extends('layouts.app')
 @section('page-title', $title)
+@prepend('page-css')
+<link rel="stylesheet" href="{{ asset('assets/css/datepicker.css') }}">
+@endprepend
 @section('content')
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
+    @if(Session::has('success'))
+        <div class='alert alert-success'>
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    <div class="row">
+        <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">{{ __($title) }}</div>
-                    <div class="container">
-                        <div class="row">
-                            <div style="border-right: 1px solid #A6969D;" class="col-6">
-                                <label for="formFileLg" class="pt-2 form-label">Import Data</label>
-                                    <form class="md-form mb-2" action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
-                                    @CSRF
-                                        <div class="file-field">
-                                        <div class="btn btn-primary btn-sm float-left">
-                                            <input type="file" name="file">
-                                        </div>
-                                        </div>
-                                        <br><br>
-                                        <button type="{{ $disabled1 }}" class="btn btn-primary {{ $disabled2 }}" {{ $disabled3 }} name="import">Import Data</button>
-                                        <br><br>
-                                    </form>
-                            </div>
-                            <div class="col-6">
-                                <label for="formFileLg" class="pt-2 form-label">Export Data</label><br>
-                                {{-- {{ route('export') }} --}}
-                                    <button type="button" class="btn btn-success" id="export">Export Data</button><br>
-                            </div>
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h3 class='text-dark'>Import & Export</h3>
+                    <hr>
+                    <form class="md-form mb-2" action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <p class='text-dark mb-1'>Attach an <strong>Excel</strong> file</p>
+                            <input class="form-control" name="file" type="file" id="file">
+                        </div>
+                        <div class="float-right">
+                            <button type="submit" class="btn btn-primary text-uppercase shadow" name="import">
+                                <span class="fas fa-paper-plane mr-2"></span>
+                                Import Data
+                            </button>
+                        </div>
+                        <div class="cleafix"></div>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    <hr>
+
+                    <div class="float-right">
+                        <button type="button" class="btn btn-success shadow" id="export">
+                            <i class='fas fa-file mr-2'></i>
+                            EXPORT DATA
+                        </button>
                     </div>
+                    <div class="clearfix">
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
+@push('page-scripts')
+<script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script>
 <script>
-    document.getElementById("export").addEventListener("click", function() {
-    window.location = "export";
+    $('.datepicker').datepicker({
+        format: "mm-yyyy",
+        viewMode: "months", 
+        minViewMode: "months"
     });
 
-   
+    document.getElementById("export").addEventListener("click", function () {
+        window.location = "export";
+    });
 </script>
+@endpush
 @endsection
-                                                                                                                                                                                                                                    

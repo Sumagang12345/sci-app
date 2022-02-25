@@ -176,8 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class
     ],
 
     /*

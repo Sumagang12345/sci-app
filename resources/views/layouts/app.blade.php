@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }} | @yield('page-title')</title>
+    @stack('meta-data')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,9 +28,11 @@
     </style>
 
 </head>
-<body onload="setInterval(function(){ if(window.navigator.onLine == true){ document.getElementById('connections').setAttribute('src','{{url('assets/images/connected.png')}}'); }else{ document.getElementById('connections').setAttribute('src','{{url('assets/images/disconnected.png')}}'); }}, 1000);">
+<body>
     <body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
   <div class="wrapper">
+  
+
     <!-- left-sidebar -->
      <aside class="left-sidebar bg-sidebar">
        <div id="sidebar" class="sidebar sidebar-with-footer">
@@ -135,8 +138,11 @@
 
                     </button>
                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Account Setting</a>
-                        <a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
+                        <a class="dropdown-item" href="{{ route('account.setting') }}">Account Setting</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                          @csrf
+                          <input class="dropdown-item" type="submit" value="Logout">
+                        </form>
                       </div>
                   </li>
                   </ul>
@@ -155,7 +161,17 @@
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    @include('sweetalert::alert')
     @stack('page-scripts')
+    <script>
+      window.onload = (event) => {
+        setInterval(function() {
+             if(window.navigator.onLine == true) {
+               document.getElementById('connections').setAttribute('src', '/assets/images/connected.png');
+               } else {
+                document.getElementById('connections').setAttribute('src','/assets/images/disconnected.png');
+            }
+         }, 1000);
+      };
+    </script>
 </body>
 </html>

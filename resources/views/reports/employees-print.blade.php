@@ -94,7 +94,7 @@
                 <th class='text-uppercase'>Amount</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style='white-space: nowrap;'>
             @foreach($employees as $employee)
             <tr>
                 <td class='text-center'>{{ str_pad($employee->EmployeeID, 4, "0", STR_PAD_LEFT) }}</td>
