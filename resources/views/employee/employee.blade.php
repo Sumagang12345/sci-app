@@ -52,13 +52,13 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class='text-dark'>Enter fullname</label>
-                            <input type="text" id="fullname" class="form-control" placeholder="Input Fullname">
+                            <input type="text" id="fullname" class="form-control" placeholder="">
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label class='text-dark'>Enter Amount</label>
-                            <input type="number" id="amount" class="form-control" placeholder="Input Amount">
+                            <input type="number" id="amount" class="form-control" placeholder="">
                         </div>
                         <button id="create" class="show-details btn btn-success shadow float-right">
                             <i class="fas fa-check mr-2"></i>

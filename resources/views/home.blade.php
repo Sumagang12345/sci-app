@@ -208,7 +208,10 @@
 <script>
     $(document).ready(function () {
         let elements = [];
-        let socket = io.connect('https://surigaodelsur.ph:3030');
+        const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let socket = io.connect('http://192.168.1.23:3030', {
+            forceNew : true,
+        });
 
         $('.datepicker').datepicker({
             format: "mm-yyyy",
@@ -336,7 +339,9 @@
                             }).then((response) => {
                                 swal.close();
                                 swal.stopLoading();
-                                socket.emit('SCI_UPLOAD');
+                                let [month, year] = $('#postMonths').val().split('-');
+                                month = MONTHS[parseInt(month) - 1];
+                                socket.emit('NOTIFY_SUPPORTS', { month : `${month} ${year}` } );
                                 swalCustomMessage("You have successfully post the deductions", "success", {
                                     buttons : false,
                                     timer : 5000,
